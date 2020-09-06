@@ -7,21 +7,21 @@ import AddForm from './AddForm.js';
 const weekdayshort = moment.weekdaysShort();
 const daysInMonth = moment().daysInMonth();
 
-let blanks = []
-
-for (let i = 0; i < daysInMonth; i++) {
-  blanks.push(<td>{i}</td>)
-}
-
 let firstDayOfMonth = () => {
   // let firstDay = moment().startOf('month').format('d'); 
   let firstDay = moment().startOf('month').format('d');
  return firstDay;
 };
 
+let blanks = []
+for (let i = 1; i <= daysInMonth; i++) {
+  blanks.push(<td>{i}</td>)
+}
+
 
 let rows = [];
 let cells = [];
+
 
 blanks.forEach((row, i) => {
   if (i % 7 !== 0) {
@@ -34,6 +34,10 @@ blanks.forEach((row, i) => {
   if (i === blanks.length - 1) { // when end loop we add remain date
     rows.push(cells);
   }
+});
+
+let daysinmonth = rows.map((d, i) => {
+  return <tr>{d}</tr>;
 });
 
 const Calendar = () => {
@@ -56,12 +60,12 @@ const Calendar = () => {
             {weekdayshort.map(day => <th>{day}</th>)}
           </tr>
         </thead>
+
         <tbody>
-      
-          <tr className='topics'>
-            {blanks}
-          </tr>
+        {daysinmonth}
+            
         </tbody>
+
       </table>
     </div>
   )
