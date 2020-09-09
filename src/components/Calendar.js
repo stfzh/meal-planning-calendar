@@ -51,11 +51,13 @@ const Calendar = (props) => {
   //   });
   // }
   
-  const showBack = (key) => {
+  const findMeal = (key, mealTime, mealDisplay) => {
     let answer;
     props.data.map(d => {
-      if (d.date === key) {
-        answer = d.name}
+      if (d.date === key && d.type === mealTime && mealDisplay == 'name') {
+        answer = d.name} else if (d.date === key && d.type === mealTime && mealDisplay == 'cost') { 
+          answer = d.cost
+        } 
     });
     return answer
   }
@@ -67,7 +69,10 @@ const Calendar = (props) => {
   for (let i = 1; i <= daysInMonth; i++) {
     let key = date.format('MM') + displayFunc(i) + date.format('YY')
     blanks.push(
-      <Day key={key} data={showBack(key)} id={key} heading={i} val='test'/>
+      <Day key={key} data={props.data}
+      lunchName={findMeal(key, 'lunch', 'name')} lunchCost={findMeal(key, 'lunch', 'cost')} 
+      dinnerName={findMeal(key, 'dinner', 'name')} dinnerCost={findMeal(key, 'dinner', 'cost')}
+      id={key} heading={i} val='test'/>
 
     )
     // <td key={dateObject.format('MM') + displayFunc(i) + dateObject.format('YY')} className='test'>
@@ -97,7 +102,6 @@ const Calendar = (props) => {
     <div>
       <div>
         {/* <AddForm /> */}
-        {showBack()}
       </div> 
       <div>
         {/* {moment().format('LL')} */}
