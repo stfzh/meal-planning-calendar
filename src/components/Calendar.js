@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import '../App.css';
 import moment from 'moment';
 
-import AddForm from './AddForm.js';
 import Day from './Day.js';
 
 
@@ -33,55 +32,17 @@ const Calendar = (props) => {
       return input
     }
   }
-
-  // const showBack = (id) => {
-  //   props.data.map((d, i) => {
-  //     console.log(d.date)
-  //     // if (d.date === id) {
-  //     //   // console.log(d.name)
-
-  //     //   return d.name
-  //     // } else {
-  //     //   console.log(d.date)
-  //     //   return 'yo'
-  //     // }
-  //     // console.log(d.date)
-  //     // console.log(d.date === id)
-      
-  //   });
-  // }
   
-  const findMeal = (key, mealTime, mealDisplay) => {
-    let answer;
-    props.data.map(d => {
-      if (d.date === key && d.type === mealTime && mealDisplay == 'name') {
-        answer = d.name} else if (d.date === key && d.type === mealTime && mealDisplay == 'cost') { 
-          answer = d.cost
-        } 
-    });
-    return answer
-  }
 
-  // const findId = () => {
-  //   let answer;
-  //   props.data.map(i => {
-  //     if (i.id) {
-
-  //     }
-  //   })
-  // }
 
   let blanks = []
   for (let i = 0; i < firstDayOfMonth(); i++) {
     blanks.push(<td></td>)
   }
   for (let i = 1; i <= daysInMonth; i++) {
-    let key = date.format('MM') + displayFunc(i) + date.format('YY')
+    let stringDate = date.format('MM') + displayFunc(i) + date.format('YY')
     blanks.push(
-      <Day key={key} id={props.data.id} data={props.data}
-      lunchName={findMeal(key, 'lunch', 'name')} lunchCost={findMeal(key, 'lunch', 'cost')} 
-      dinnerName={findMeal(key, 'dinner', 'name')} dinnerCost={findMeal(key, 'dinner', 'cost')}
-      head={key} heading={i} val='test'/>
+      <td><Day data={props.data} stringDate={stringDate} heading={i}/></td>
 
     )
     // <td key={dateObject.format('MM') + displayFunc(i) + dateObject.format('YY')} className='test'>
@@ -109,16 +70,6 @@ const Calendar = (props) => {
 
   return (
     <div>
-      <div>
-        {/* <AddForm /> */}
-      </div> 
-      <div>
-        {/* {moment().format('LL')} */}
-        {props.data.map(i => <li>{i.id}</li>)}
-        {/* {selectDate} */}
-        {/* {date} */}
-        
-      </div>
 
       <h1>{date.format('MMMM')} {date.format('YYYY')}</h1>
       <button onClick={handlePrevClick}>Previous</button>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import firebase from './firebase';
 import './App.css';
 
-// Import components
+// Components
 import Calendar from './components/Calendar.js';
 
 
@@ -24,14 +24,12 @@ const App = () => {
       
       <ul>
         {meals.map(meal => (
-          <li key={meal.date}>{meal.date} {meal.name} {meal.id}</li>
+          <li key={meal.id}>{meal.name} {meal.type} {meal.date}</li>
         ))}
       </ul>
 
       <Calendar data={meals} />
       
-
-      {/* <InlineEdit text='hello this is a test'/> */}
     </div>
   )
 }
