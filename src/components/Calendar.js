@@ -62,6 +62,15 @@ const Calendar = (props) => {
     return answer
   }
 
+  // const findId = () => {
+  //   let answer;
+  //   props.data.map(i => {
+  //     if (i.id) {
+
+  //     }
+  //   })
+  // }
+
   let blanks = []
   for (let i = 0; i < firstDayOfMonth(); i++) {
     blanks.push(<td></td>)
@@ -69,10 +78,10 @@ const Calendar = (props) => {
   for (let i = 1; i <= daysInMonth; i++) {
     let key = date.format('MM') + displayFunc(i) + date.format('YY')
     blanks.push(
-      <Day key={key} data={props.data}
+      <Day key={key} id={props.data.id} data={props.data}
       lunchName={findMeal(key, 'lunch', 'name')} lunchCost={findMeal(key, 'lunch', 'cost')} 
       dinnerName={findMeal(key, 'dinner', 'name')} dinnerCost={findMeal(key, 'dinner', 'cost')}
-      id={key} heading={i} val='test'/>
+      head={key} heading={i} val='test'/>
 
     )
     // <td key={dateObject.format('MM') + displayFunc(i) + dateObject.format('YY')} className='test'>
@@ -105,8 +114,7 @@ const Calendar = (props) => {
       </div> 
       <div>
         {/* {moment().format('LL')} */}
-        {/* {[...Array(daysInMonth+1).keys()].map(item => <li>{item}</li>)} */}
-        {/* {selectDate.map(i => <li>{i}</li>)} */}
+        {props.data.map(i => <li>{i.id}</li>)}
         {/* {selectDate} */}
         {/* {date} */}
         

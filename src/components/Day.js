@@ -10,7 +10,7 @@ const Day = (props) => {
 
   const onUpdate = () => {
     const db = firebase.firestore();
-    db.collection('meals').doc(props.data.id).set({... props.data, name})
+    db.collection('meals').doc(props.id).set({... props.data, name})
   }
 
 

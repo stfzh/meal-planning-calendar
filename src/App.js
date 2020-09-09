@@ -14,18 +14,20 @@ const App = () => {
       const db = firebase.firestore();
       const data = await db.collection('meals').get();
       setMeals(data.docs.map(d => ({...d.data(), id: d.id}))); 
-    }
+    };
     fetchData();
   }, []);
 
   return (
     <div>
       Hello!
-      {/* <ul>
+      
+      <ul>
         {meals.map(meal => (
-          <li key={meal.date}>{meal.date} {meal.name}</li>
+          <li key={meal.date}>{meal.date} {meal.name} {meal.id}</li>
         ))}
-      </ul> */}
+      </ul>
+
       <Calendar data={meals} />
       
 
