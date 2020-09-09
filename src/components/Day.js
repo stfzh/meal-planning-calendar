@@ -41,6 +41,7 @@ const Day = (props) => {
   }
 
 
+
   return (
     <td>
     <table>
@@ -49,7 +50,8 @@ const Day = (props) => {
       </thead>
       <tbody>
       <tr>
-      <td>from backend</td>
+      
+      <td>{props.data}</td>
       <td>backend price</td>
       </tr>
       <tr>

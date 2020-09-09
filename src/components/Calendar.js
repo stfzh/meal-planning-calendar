@@ -1,20 +1,28 @@
-import React,  from 'react';
+import React, { useState } from 'react';
 import '../App.css';
 import moment from 'moment';
 
 import AddForm from './AddForm.js';
 import Day from './Day.js';
 
-const weekdayshort = moment.weekdaysShort();
-const dateObject = moment()
-const daysInMonth = dateObject.daysInMonth();
 
-const Calendar = () => {
+const Calendar = (props) => {
 
-  
+  const [date, setDate] = useState(moment());
+
+  const weekdayshort = moment.weekdaysShort();
+  const daysInMonth = date.daysInMonth();
+
+  const handleNextClick = () => {
+    setDate(date.clone().add(1, 'M'));
+  }
+
+  const handlePrevClick = () => {
+    setDate(date.clone().add(-1, 'M'));
+  }
 
   let firstDayOfMonth = () => {
-    let firstDay = dateObject.startOf('month').format('d');
+    let firstDay = date.startOf('month').format('d');
    return firstDay;
   };
 
@@ -26,14 +34,42 @@ const Calendar = () => {
     }
   }
 
+  // const showBack = (id) => {
+  //   props.data.map((d, i) => {
+  //     console.log(d.date)
+  //     // if (d.date === id) {
+  //     //   // console.log(d.name)
+
+  //     //   return d.name
+  //     // } else {
+  //     //   console.log(d.date)
+  //     //   return 'yo'
+  //     // }
+  //     // console.log(d.date)
+  //     // console.log(d.date === id)
+      
+  //   });
+  // }
+  
+  const showBack = (key) => {
+    let answer;
+    props.data.map(d => {
+      if (d.date === key) {
+        answer = d.name}
+    });
+    return answer
+  }
 
   let blanks = []
   for (let i = 0; i < firstDayOfMonth(); i++) {
     blanks.push(<td></td>)
   }
   for (let i = 1; i <= daysInMonth; i++) {
-    let key = dateObject.format('MM') + displayFunc(i) + dateObject.format('YY')
-    blanks.push(<Day key={key} id={key} heading={i} val='test'/>)
+    let key = date.format('MM') + displayFunc(i) + date.format('YY')
+    blanks.push(
+      <Day key={key} data={showBack(key)} id={key} heading={i} val='test'/>
+
+    )
     // <td key={dateObject.format('MM') + displayFunc(i) + dateObject.format('YY')} className='test'>
   }
 
@@ -61,16 +97,20 @@ const Calendar = () => {
     <div>
       <div>
         {/* <AddForm /> */}
+        {showBack()}
       </div> 
       <div>
         {/* {moment().format('LL')} */}
         {/* {[...Array(daysInMonth+1).keys()].map(item => <li>{item}</li>)} */}
         {/* {selectDate.map(i => <li>{i}</li>)} */}
         {/* {selectDate} */}
+        {/* {date} */}
         
       </div>
 
-      <h1>{dateObject.format('MMMM')} {dateObject.format('YYYY')}</h1>
+      <h1>{date.format('MMMM')} {date.format('YYYY')}</h1>
+      <button onClick={handlePrevClick}>Previous</button>
+      <button onClick={handleNextClick}>Next</button>
       <table>
       
         <thead>
@@ -85,8 +125,7 @@ const Calendar = () => {
         </tbody>
 
       </table>
-      <button>Previous</button>
-      <button>Next</button>
+
 
     </div>
   )
