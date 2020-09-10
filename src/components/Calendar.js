@@ -32,8 +32,18 @@ const Calendar = (props) => {
       return input
     }
   }
-  
 
+  const sendFiltered = (date) => {
+
+    let output;
+    props.data.map(i => {
+      if (date === i.date) {
+        output = i
+      }
+    });
+    return output
+  }
+  
 
   let blanks = []
   for (let i = 0; i < firstDayOfMonth(); i++) {
@@ -42,7 +52,9 @@ const Calendar = (props) => {
   for (let i = 1; i <= daysInMonth; i++) {
     let stringDate = date.format('MM') + displayFunc(i) + date.format('YY')
     blanks.push(
-      <td><Day data={props.data} stringDate={stringDate} heading={i}/></td>
+      <td>
+        <Day data={sendFiltered(stringDate)} stringDate={stringDate} heading={i} />
+      </td>
 
     )
     // <td key={dateObject.format('MM') + displayFunc(i) + dateObject.format('YY')} className='test'>

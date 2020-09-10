@@ -24,7 +24,7 @@ const App = () => {
       
       <ul>
         {meals.map(meal => (
-          <li key={meal.id}>{meal.name} {meal.type} {meal.date}</li>
+          <li key={meal.id}>{meal.date} {meal.type} {meal.name}</li>
         ))}
       </ul>
 

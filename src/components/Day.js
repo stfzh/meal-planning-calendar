@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import firebase from '../firebase';
 import '../App.css';
 
 
@@ -7,66 +8,82 @@ import Content from './Content.js';
 
 const Day = (props) => {
 
-  const findMeal = (key, mealTime, mealDisplay) => {
-    let answer;
-    props.data.map(d => {
-      if (d.date === props.key && d.type === mealTime && mealDisplay == 'name') {
-        answer = d.name} else if (d.date === key && d.type === mealTime && mealDisplay == 'cost') { 
-          answer = d.cost
-        } 
-    });
-    return answer
+
+  const [name, setName] = useState('')
+  const [currentDate, setCurrentDate] = useState('');
+  const [currentMealType, setCurrentMealType] = useState('lunch');
+  const [currentCost, setCurrentCost] = useState('');
+  
+  const onUpdate = () => {
+
+      const db = firebase.firestore();
+      db.collection('meals').doc(props.data.id).set({... props.data, name})
+   
+
+
+      // const db = firebase.firestore();
+      // db.collection('meals').add({ name: name, date: currentDate, type: currentMealType });
+  
+
   }
 
-  const findId = () => {
-    let output;
-    props.data.map(
-      i => {
-        if (i.date === props.stringDate && i.type === 'lunch') {
-          output = i.id
-        }
+  const onAdd = () => {
+    const db = firebase.firestore();
+    db.collection('meals').add({ name: name, date: currentDate, type: currentMealType });
+        
+  }
+
+  useEffect(() => {
+    console.log(currentMealType);
+    // handleLunchClick();
+  }, [currentMealType]);
+
+  const handleLunchClick = () => {
+    
+    setCurrentDate(props.stringDate);
+    setCurrentMealType(props.data.type); 
+    // console.log(currentMealType)
+  }
+
+
+  const testing = (mealType) => {
+    let output; 
+    if (props.data) {
+      if (props.data.type === mealType) {
+        output = <input defaultValue={props.data.name} onClick={handleLunchClick} onChange={(e) => setName(e.target.value)}/>
+      } else {
+        output = <input onClick={() => {setCurrentDate(props.stringDate);setCurrentMealType(mealType)}} onChange={(e) => setName(e.target.value)}/>
       }
-    )
+    } else {
+      output = <input onClick={() => {setCurrentDate(props.stringDate);setCurrentMealType(mealType)}} onChange={(e) => setName(e.target.value)}/>
+    }
     return output
   }
-
-  let filteredProps = props.data.filter(i => (i.date === props.stringDate && i.type === 'lunch'))
-  
-  const lunchId = filteredProps.map(i => i.id)
-  const lunchName = filteredProps.map(i => i.name)
-  const lunchCost = filteredProps.map(i => i.cost)
-
-
-  // <Day key={key} id={props.data.id} data={props.data}
-  //     lunchName={findMeal(key, 'lunch', 'name')} lunchCost={findMeal(key, 'lunch', 'cost')} 
-  //     dinnerName={findMeal(key, 'dinner', 'name')} dinnerCost={findMeal(key, 'dinner', 'cost')}
-  //     head={key} heading={i} val='test'/>
 
   return (
     <table>
       <thead>
         <tr>
           <th>{props.heading}</th>
-          <th>{props.key}</th>
-          <th>Update</th>
+          {/* <th>Cost</th> */}
+          <th>test</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          {/* <td>{props.lunchName}</td> */}
-          <td><Content id={lunchId} name={lunchName} cost={lunchCost} data={filteredProps}/></td>
-          {/* <td>{props.lunchCost}</td> */}
-          <td><Content /></td>
+          <td><Content type='lunch' data={props.data}/></td>
+          {/* <td>{testing('lunch', 'cost')}</td> */}
+          <td>{currentMealType}</td>
         </tr>
         <tr>
-          {/* <td>{props.dinnerName}</td>
-          <td>{props.dinnerCost}</td> */}
-          <td></td>
-          {/* <td>{filteredProps.map(i => i.id)}</td> */}
-          <td></td>
+          <td><Content type='dinner' data={props.data}/></td>
+          {/* <td>{testing('dinner', 'cost')}</td> */}
+          <td>{currentDate}</td>
         </tr>
         <tr>
           {/* <td><button onClick={onUpdate}>update</button></td> */}
+          <td><button onClick={onUpdate}>update</button></td>
+          <td><button onClick={onAdd}>add</button></td>
         </tr>
       </tbody>
     </table>
