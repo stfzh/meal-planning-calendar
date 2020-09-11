@@ -3,61 +3,46 @@ import firebase from '../firebase';
 import '../App.css';
 
 
-import Content from './Content.js';
-
-
 const Day = (props) => {
-
 
   const [name, setName] = useState('')
   const [currentDate, setCurrentDate] = useState('');
-  const [currentMealType, setCurrentMealType] = useState('lunch');
-  const [currentCost, setCurrentCost] = useState('');
-  
+  const [currentMealType, setCurrentMealType] = useState('');
+
   const onUpdate = () => {
-
-      const db = firebase.firestore();
-      db.collection('meals').doc(props.data.id).set({... props.data, name})
-   
-
-
-      // const db = firebase.firestore();
-      // db.collection('meals').add({ name: name, date: currentDate, type: currentMealType });
-  
-
+    const db = firebase.firestore();
+    if (props.lunch === undefined || props.dinner === undefined) {
+      db.collection('meals').add({ name: name, date: currentDate, type: currentMealType });
+    } else if (currentMealType === 'lunch') {
+      db.collection('meals').doc(String(props.lunch.id)).set({... props.lunch, name})
+    } else if (currentMealType === 'dinner') {
+      db.collection('meals').doc(String(props.dinner.id)).set({... props.dinner, name})
+    } 
   }
 
   const onAdd = () => {
     const db = firebase.firestore();
-    db.collection('meals').add({ name: name, date: currentDate, type: currentMealType });
+    db.collection('meals').add({ name: name, date: currentDate, type: currentMealType});
         
   }
 
   useEffect(() => {
-    console.log(currentMealType);
     // handleLunchClick();
   }, [currentMealType]);
+
 
   const handleLunchClick = () => {
     
     setCurrentDate(props.stringDate);
-    setCurrentMealType(props.data.type); 
+    setCurrentMealType('lunch'); 
     // console.log(currentMealType)
   }
 
-
-  const testing = (mealType) => {
-    let output; 
-    if (props.data) {
-      if (props.data.type === mealType) {
-        output = <input defaultValue={props.data.name} onClick={handleLunchClick} onChange={(e) => setName(e.target.value)}/>
-      } else {
-        output = <input onClick={() => {setCurrentDate(props.stringDate);setCurrentMealType(mealType)}} onChange={(e) => setName(e.target.value)}/>
-      }
-    } else {
-      output = <input onClick={() => {setCurrentDate(props.stringDate);setCurrentMealType(mealType)}} onChange={(e) => setName(e.target.value)}/>
-    }
-    return output
+  const handleDinnerClick = () => {
+    
+    setCurrentDate(props.stringDate);
+    setCurrentMealType('dinner'); 
+    // console.log(currentMealType)
   }
 
   return (
@@ -71,14 +56,24 @@ const Day = (props) => {
       </thead>
       <tbody>
         <tr>
-          <td><Content type='lunch' data={props.data}/></td>
-          {/* <td>{testing('lunch', 'cost')}</td> */}
-          <td>{currentMealType}</td>
+          <td>
+          <input 
+          defaultValue={props.lunch ? props.lunch.name : null} 
+            onClick={handleLunchClick}
+            onChange={e => setName(e.target.value)}
+          />
+          </td>
+          <td>{props.lunch === undefined ? 't': 'false'}</td>
         </tr>
         <tr>
-          <td><Content type='dinner' data={props.data}/></td>
-          {/* <td>{testing('dinner', 'cost')}</td> */}
-          <td>{currentDate}</td>
+          <td>
+          <input 
+          defaultValue={props.dinner ? props.dinner.name : null} 
+            onClick={handleDinnerClick}
+            onChange={e => setName(e.target.value)}
+          />
+          </td>
+          {/* <td>{props.dinner ? 'true': 'false'}</td> */}
         </tr>
         <tr>
           {/* <td><button onClick={onUpdate}>update</button></td> */}

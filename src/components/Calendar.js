@@ -33,11 +33,20 @@ const Calendar = (props) => {
     }
   }
 
-  const sendFiltered = (date) => {
-
+  const sendLunch = (date) => {
     let output;
     props.data.map(i => {
-      if (date === i.date) {
+      if (date === i.date && i.type === 'lunch') {
+        output = i
+      }
+    });
+    return output
+  }
+
+  const sendDinner = (date) => {
+    let output;
+    props.data.map(i => {
+      if (date === i.date && i.type === 'dinner') {
         output = i
       }
     });
@@ -53,7 +62,8 @@ const Calendar = (props) => {
     let stringDate = date.format('MM') + displayFunc(i) + date.format('YY')
     blanks.push(
       <td>
-        <Day data={sendFiltered(stringDate)} stringDate={stringDate} heading={i} />
+        {/* <Day data={sendFiltered(stringDate)} stringDate={stringDate} heading={i} /> */}
+        <Day lunch={sendLunch(stringDate)} dinner={sendDinner(stringDate)} stringDate={stringDate} heading={i} />
       </td>
 
     )
