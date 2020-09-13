@@ -52,7 +52,6 @@ const Calendar = (props) => {
     });
     return output
   }
-  
 
   let blanks = []
   for (let i = 0; i < firstDayOfMonth(); i++) {
@@ -62,12 +61,9 @@ const Calendar = (props) => {
     let stringDate = date.format('MM') + displayFunc(i) + date.format('YY')
     blanks.push(
       <td>
-        {/* <Day data={sendFiltered(stringDate)} stringDate={stringDate} heading={i} /> */}
         <Day lunch={sendLunch(stringDate)} dinner={sendDinner(stringDate)} stringDate={stringDate} heading={i} />
       </td>
-
     )
-    // <td key={dateObject.format('MM') + displayFunc(i) + dateObject.format('YY')} className='test'>
   }
 
   // Below used for display
@@ -86,32 +82,23 @@ const Calendar = (props) => {
     }
   });
 
-  let daysinmonth = rows.map((d, i) => {
+  let displayCalendar = rows.map((d, i) => {
     return <tr>{d}</tr>;
   });
 
   return (
     <div>
-
       <h1>{date.format('MMMM')} {date.format('YYYY')}</h1>
       <button onClick={handlePrevClick}>Previous</button>
       <button onClick={handleNextClick}>Next</button>
       <table>
-      
         <thead>
           <tr className='calendar'>
             {weekdayshort.map(day => <th>{day}</th>)}
           </tr>
         </thead>
-
-        <tbody>
-        {daysinmonth}
-            
-        </tbody>
-
+        <tbody>{displayCalendar}</tbody>
       </table>
-
-
     </div>
   )
 }

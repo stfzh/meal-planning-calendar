@@ -20,29 +20,18 @@ const Day = (props) => {
     } 
   }
 
-  const onAdd = () => {
-    const db = firebase.firestore();
-    db.collection('meals').add({ name: name, date: currentDate, type: currentMealType});
-        
-  }
-
   useEffect(() => {
     // handleLunchClick();
   }, [currentMealType]);
 
-
   const handleLunchClick = () => {
-    
     setCurrentDate(props.stringDate);
     setCurrentMealType('lunch'); 
-    // console.log(currentMealType)
   }
 
   const handleDinnerClick = () => {
-    
     setCurrentDate(props.stringDate);
     setCurrentMealType('dinner'); 
-    // console.log(currentMealType)
   }
 
   return (
@@ -51,38 +40,33 @@ const Day = (props) => {
         <tr>
           <th>{props.heading}</th>
           {/* <th>Cost</th> */}
-          <th>test</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
-          <input 
-          defaultValue={props.lunch ? props.lunch.name : null} 
-            onClick={handleLunchClick}
-            onChange={e => setName(e.target.value)}
-          />
+            <input defaultValue={props.lunch ? props.lunch.name : null} 
+              onClick={handleLunchClick}
+              onChange={e => setName(e.target.value)}
+            />
           </td>
-          <td>{props.lunch === undefined ? 't': 'false'}</td>
+          {/* <td></td> */}
         </tr>
         <tr>
           <td>
-          <input 
-          defaultValue={props.dinner ? props.dinner.name : null} 
-            onClick={handleDinnerClick}
-            onChange={e => setName(e.target.value)}
-          />
+            <input defaultValue={props.dinner ? props.dinner.name : null} 
+              onClick={handleDinnerClick}
+              onChange={e => setName(e.target.value)}
+            />
           </td>
-          {/* <td>{props.dinner ? 'true': 'false'}</td> */}
+          {/* <td></td> */}
         </tr>
         <tr>
-          {/* <td><button onClick={onUpdate}>update</button></td> */}
           <td><button onClick={onUpdate}>update</button></td>
-          <td><button onClick={onAdd}>add</button></td>
+          {/* <td><button onClick={onAdd}>add</button></td> */}
         </tr>
       </tbody>
     </table>
-
   )
 }
 

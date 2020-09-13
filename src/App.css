@@ -5,8 +5,8 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
-  border: 1px solid black;
+tr {
+  border: 1px solid gray;
   text-align: center;
 }
 
@@ -27,4 +27,22 @@ th, td {
   cursor: pointer;
 }
 
+button {
+  cursor: pointer;
+  background-color: pink; /* Green */
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+}
 
+
+input {
+  width: 100%;
+  padding: 5px 10px;
+  /* margin: 8px 0; */
+  box-sizing: border-box;
+}

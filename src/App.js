@@ -21,15 +21,13 @@ const App = () => {
 
   return (
     <div>
-      Hello!
-      
-      <ul>
-        {/* {meals.map(meal => (
+      {/* <ul>
+        {meals.map(meal => (
           <li key={meal.id}>{meal.date} {meal.type} {meal.name} {meal.id}</li>
-        ))} */}
-      </ul>
+        ))}
+      </ul> */}
       <div>
-      <Calendar data={meals} />
+        <Calendar data={meals} />
       </div>
     </div>
   )
