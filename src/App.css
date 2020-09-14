@@ -10,11 +10,9 @@ tr {
   text-align: center;
 }
 
-/* .calendar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-} */
+.outer-calendar {
+  margin-top: 1rem;
+}
 
 .topics {
   display: flex;
@@ -27,7 +25,7 @@ tr {
   cursor: pointer;
 }
 
-button {
+.update-button {
   cursor: pointer;
   background-color: pink; /* Green */
   border: none;
@@ -37,12 +35,19 @@ button {
   text-decoration: none;
   display: inline-block;
   font-size: 12px;
+  border-radius: 8px;
+}
+
+.toggle-month {
+  cursor: pointer;
+  border: none;
 }
 
 
 input {
   width: 100%;
-  padding: 5px 10px;
+  padding: 2px 5px;
   /* margin: 8px 0; */
   box-sizing: border-box;
+  border: none;
 }

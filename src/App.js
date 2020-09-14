@@ -5,7 +5,6 @@ import './App.css';
 // Components
 import Calendar from './components/Calendar.js';
 
-
 const App = () => {
   const [meals, setMeals] = useState([]);
 
@@ -13,19 +12,18 @@ const App = () => {
     const fetchData = async () => {
       const db = firebase.firestore();
       const data = await db.collection('meals').get();
-      setMeals(data.docs.map(d => ({...d.data(), id: d.id}))); 
-
+      setMeals(data.docs.map(i => ({...i.data(), id: i.id}))); 
     };
     fetchData();
   }, []);
 
   return (
     <div>
-      {/* <ul>
+      <ul>
         {meals.map(meal => (
-          <li key={meal.id}>{meal.date} {meal.type} {meal.name} {meal.id}</li>
+          <li key={meal.id}>{meal.cost} {meal.date} {meal.type} {meal.name} {meal.id}</li>
         ))}
-      </ul> */}
+      </ul>
       <div>
         <Calendar data={meals} />
       </div>
