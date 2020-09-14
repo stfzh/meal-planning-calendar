@@ -11,35 +11,52 @@ const Day = (props) => {
 
   const onUpdate = () => {
     const db = firebase.firestore();
-    if (props.lunch === undefined || props.dinner === undefined) {
+    if ((props.lunch === undefined && props.dinner === undefined) ||
+      (mealType === 'lunch' && id === '') ||
+      (mealType === 'dinner' && id === '') 
+      ) {
       db.collection('meals').add({ name: name, cost: cost, date: date, type: mealType });
-    // } else if (mealType === 'lunch') {
-    //   db.collection('meals').doc(props.lunch.id).set({...props.lunch, name})
-    // } else if (mealType === 'dinner') {
-    //   db.collection('meals').doc(props.dinner.id).set({...props.dinner, name})
-    // } 
-    } else if (mealType === 'lunch') {
-      db.collection('meals').doc(id).set({...props.lunch, name, cost})
-    } else if (mealType === 'dinner') {
-      db.collection('meals').doc(id).set({...props.dinner, name, cost})
-    } 
+    } else if (mealType === 'lunch' && cost === '') {
+      db.collection('meals').doc(id).set({...props.lunch, name})
+    } else if (mealType === 'lunch' && name === '') {
+      db.collection('meals').doc(props.lunch.id).set({...props.lunch, cost})
+    } else if (mealType === 'dinner' && cost === '') {
+      db.collection('meals').doc(props.dinner.id).set({...props.dinner, name})
+    } else if (mealType === 'dinner' && name === '') {
+      db.collection('meals').doc(props.dinner.id).set({...props.dinner, cost})
+    }
   }
 
   useEffect(() => {
-    // handleLunchClick();
-  }, [setMealType]);
+    // console.log(mealType)
+    // console.log(id)
+  }, [mealType, id]);
 
-  const handleLunchClick = () => {
+  const handleLunchClick = (e) => {
     if (props.lunch) {
       setId(props.lunch.id);
+      // console.log(props.lunch.id)
+    } else {
+      setId('');
     }
     setDate(props.stringDate);
     setMealType('lunch'); 
+    // console.log(mealType)
+    // console.log(id)
+    // console.log(id)
   }
 
-  const handleDinnerClick = () => {
+  const handleDinnerClick = (e) => {
+    if (props.dinner) {
+      setId(props.dinner.id);
+      // console.log(props.dinner.id)
+    } else {
+      setId('')
+    }
     setDate(props.stringDate);
     setMealType('dinner'); 
+    // console.log(mealType)
+    // console.log(id)
   }
 
   return (
@@ -64,7 +81,7 @@ const Day = (props) => {
               onClick={handleLunchClick}
               onChange={e => setCost(e.target.value)}/>
           </td>
-          <td>{props.lunch ? props.lunch.id : null}</td>
+          {/* <td>{props.lunch ? props.lunch.id : null}</td> */}
         </tr>
         <tr>
           <td>
@@ -76,9 +93,10 @@ const Day = (props) => {
           <td>
             <input 
               defaultValue={props.dinner ? props.dinner.cost : null} 
-              onClick={handleLunchClick}
+              onClick={handleDinnerClick}
               onChange={e => setCost(e.target.value)}/>
           </td>
+          {/* <td>{props.dinner ? props.dinner.id : null}</td> */}
         </tr>
         <tr>
           <td><button className='update-button' onClick={onUpdate}>update</button></td>
